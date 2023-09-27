@@ -1,3 +1,5 @@
+export type StringifyErrorType = Error
+
 export const stringify: typeof JSON.stringify = (value, replacer, space) =>
   JSON.stringify(
     value,

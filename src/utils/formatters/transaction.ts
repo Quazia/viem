@@ -40,6 +40,8 @@ export const transactionType = {
   '0x2': 'eip1559',
 } as const
 
+export type FormatTransactionErrorType = Error
+
 export function formatTransaction(transaction: Partial<RpcTransaction>) {
   const transaction_ = {
     ...transaction,

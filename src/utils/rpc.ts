@@ -8,8 +8,14 @@ import {
   WebSocketRequestError,
 } from '../errors/request.js'
 
-import { createBatchScheduler } from './promise/createBatchScheduler.js'
-import { withTimeout } from './promise/withTimeout.js'
+import {
+  type CreateBatchSchedulerErrorType,
+  createBatchScheduler,
+} from './promise/createBatchScheduler.js'
+import {
+  type WithTimeoutErrorType,
+  withTimeout,
+} from './promise/withTimeout.js'
 import { stringify } from './stringify.js'
 
 let id = 0
@@ -69,6 +75,12 @@ export type HttpOptions<TBody extends RpcRequest | RpcRequest[] = RpcRequest,> =
 export type HttpReturnType<
   TBody extends RpcRequest | RpcRequest[] = RpcRequest,
 > = TBody extends RpcRequest[] ? RpcResponse[] : RpcResponse
+
+export type HttpError =
+  | HttpRequestError
+  | TimeoutError
+  | WithTimeoutErrorType
+  | Error
 
 async function http<TBody extends RpcRequest | RpcRequest[]>(
   url: string,
@@ -146,6 +158,8 @@ export type Socket = WebSocket & {
   subscriptions: CallbackMap
 }
 
+export type GetSocketError = CreateBatchSchedulerErrorType | Error
+
 export const socketsCache = /*#__PURE__*/ new Map<string, Socket>()
 
 export async function getSocket(url: string) {
@@ -219,6 +233,8 @@ export type WebSocketOptions = {
 
 export type WebSocketReturnType = Socket
 
+export type WebSocketError = WebSocketRequestError | Error
+
 function webSocket(
   socket: Socket,
   { body, onResponse }: WebSocketOptions,
@@ -268,6 +284,12 @@ export type WebSocketAsyncOptions = {
 }
 
 export type WebSocketAsyncReturnType = RpcResponse
+
+export type WebSocketAsyncError =
+  | WebSocketError
+  | TimeoutError
+  | WithTimeoutErrorType
+  | Error
 
 async function webSocketAsync(
   socket: Socket,

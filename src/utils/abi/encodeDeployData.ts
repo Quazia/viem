@@ -6,9 +6,12 @@ import {
 } from '../../errors/abi.js'
 import type { GetConstructorArgs } from '../../types/contract.js'
 import type { Hex } from '../../types/misc.js'
-import { concatHex } from '../data/concat.js'
+import { type ConcatHexErrorType, concatHex } from '../data/concat.js'
 
-import { encodeAbiParameters } from './encodeAbiParameters.js'
+import {
+  type EncodeAbiParametersErrorType,
+  encodeAbiParameters,
+} from './encodeAbiParameters.js'
 
 const docsPath = '/docs/contract/encodeDeployData'
 
@@ -18,6 +21,12 @@ export type EncodeDeployDataParameters<
   abi: TAbi
   bytecode: Hex
 } & GetConstructorArgs<TAbi>
+
+export type EncodeDeployDataErrorType =
+  | AbiConstructorNotFoundError
+  | ConcatHexErrorType
+  | EncodeAbiParametersErrorType
+  | Error
 
 export function encodeDeployData<const TAbi extends Abi | readonly unknown[]>({
   abi,

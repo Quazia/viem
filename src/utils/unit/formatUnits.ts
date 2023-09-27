@@ -1,3 +1,5 @@
+export type FormatUnitsError = Error
+
 export function formatUnits(value: bigint, decimals: number) {
   let display = value.toString()
 

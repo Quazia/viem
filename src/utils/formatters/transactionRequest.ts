@@ -5,7 +5,7 @@ import type {
 import type { RpcTransactionRequest } from '../../types/rpc.js'
 import type { TransactionRequest } from '../../types/transaction.js'
 import { numberToHex } from '../encoding/toHex.js'
-import { defineFormatter } from './formatter.js'
+import { type DefineFormatterErrorType, defineFormatter } from './formatter.js'
 
 export type FormattedTransactionRequest<
   TChain extends Chain | undefined = Chain | undefined,
@@ -20,6 +20,8 @@ export const rpcTransactionType = {
   eip2930: '0x1',
   eip1559: '0x2',
 } as const
+
+export type FormatTransactionRequestErrorType = Error
 
 export function formatTransactionRequest(
   transactionRequest: Partial<TransactionRequest>,
@@ -56,6 +58,8 @@ export function formatTransactionRequest(
         : undefined,
   } as RpcTransactionRequest
 }
+
+export type DefineTransactionRequestErrorType = DefineFormatterErrorType | Error
 
 export const defineTransactionRequest = /*#__PURE__*/ defineFormatter(
   'transactionRequest',

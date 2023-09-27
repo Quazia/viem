@@ -2,8 +2,11 @@ import type { Address, TypedData } from 'abitype'
 
 import type { ByteArray, Hex } from '../../types/misc.js'
 import type { TypedDataDefinition } from '../../types/typedData.js'
-import { getAddress } from '../address/getAddress.js'
-import { isAddressEqual } from '../address/isAddressEqual.js'
+import { type GetAddressErrorType, getAddress } from '../address/getAddress.js'
+import {
+  type IsAddressEqualErrorType,
+  isAddressEqual,
+} from '../address/isAddressEqual.js'
 
 import {
   type RecoverTypedDataAddressParameters,
@@ -21,6 +24,12 @@ export type VerifyTypedDataParameters<
 }
 
 export type VerifyTypedDataReturnType = boolean
+
+export type VerifyTypedDataErrorType =
+  | IsAddressEqualErrorType
+  | GetAddressErrorType
+  | RecoverTypedDataAddressParameters
+  | Error
 
 /**
  * Verify that typed data was signed by the provided address.

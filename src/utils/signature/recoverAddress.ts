@@ -9,7 +9,10 @@ export type RecoverAddressParameters = {
   hash: Hex | ByteArray
   signature: Hex | ByteArray
 }
+
 export type RecoverAddressReturnType = Address
+
+export type RecoverAddressErrorType = Error
 
 export async function recoverAddress({
   hash,

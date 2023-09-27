@@ -10,8 +10,15 @@ import type {
   InferFunctionName,
 } from '../../types/contract.js'
 
-import { encodeAbiParameters } from './encodeAbiParameters.js'
-import { type GetAbiItemParameters, getAbiItem } from './getAbiItem.js'
+import {
+  type EncodeAbiParametersErrorType,
+  encodeAbiParameters,
+} from './encodeAbiParameters.js'
+import {
+  type GetAbiItemErrorType,
+  type GetAbiItemParameters,
+  getAbiItem,
+} from './getAbiItem.js'
 
 const docsPath = '/docs/contract/encodeFunctionResult'
 
@@ -29,6 +36,13 @@ export type EncodeFunctionResultParameters<
       result?: ContractFunctionResult<TAbi, _FunctionName>
     }
   : never)
+
+export type EncodeFunctionResultErrorType =
+  | AbiFunctionOutputsNotFoundError
+  | AbiFunctionNotFoundError
+  | EncodeAbiParametersErrorType
+  | GetAbiItemErrorType
+  | Error
 
 export function encodeFunctionResult<
   const TAbi extends Abi | readonly unknown[],

@@ -7,6 +7,8 @@ export type TrimReturnType<TValue extends ByteArray | Hex> = TValue extends Hex
   ? Hex
   : ByteArray
 
+export type TrimErrorType = Error
+
 export function trim<TValue extends ByteArray | Hex>(
   hexOrBytes: TValue,
   { dir = 'left' }: TrimOptions = {},

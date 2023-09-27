@@ -1,6 +1,8 @@
 export const promiseCache = /*#__PURE__*/ new Map()
 export const responseCache = /*#__PURE__*/ new Map()
 
+export type GetCacheErrorType = Error
+
 export function getCache<TData>(cacheKey: string) {
   const buildCache = <TData>(cacheKey: string, cache: Map<string, TData>) => ({
     clear: () => cache.delete(cacheKey),

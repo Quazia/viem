@@ -3,10 +3,12 @@ import {
   SizeOverflowError,
 } from '../../errors/encoding.js'
 import type { ByteArray, Hex } from '../../types/misc.js'
-import { size as size_ } from '../data/size.js'
-import { trim } from '../data/trim.js'
+import { type SizeErrorType, size as size_ } from '../data/size.js'
+import { type TrimErrorType, trim } from '../data/trim.js'
 
-import { hexToBytes } from './toBytes.js'
+import { type HexToBytesErrorType, hexToBytes } from './toBytes.js'
+
+export type AssertSizeErrorType = SizeOverflowError | SizeErrorType | Error
 
 export function assertSize(
   hexOrBytes: Hex | ByteArray,
@@ -41,6 +43,14 @@ export type FromHexReturnType<TTo> = TTo extends 'string'
   : TTo extends 'boolean'
   ? boolean
   : never
+
+export type FromHexErrorType =
+  | HexToNumberErrorType
+  | HexToBigIntErrorType
+  | HexToBoolErrorType
+  | HexToStringErrorType
+  | HexToBytesErrorType
+  | Error
 
 /**
  * Decodes a hex string into a string, number, bigint, boolean, or byte array.
@@ -90,6 +100,8 @@ export type HexToBigIntOpts = {
   size?: number
 }
 
+export type HexToBigIntErrorType = AssertSizeErrorType | Error
+
 /**
  * Decodes a hex value into a bigint.
  *
@@ -129,6 +141,12 @@ export type HexToBoolOpts = {
   size?: number
 }
 
+export type HexToBoolErrorType =
+  | AssertSizeErrorType
+  | InvalidHexBooleanError
+  | TrimErrorType
+  | Error
+
 /**
  * Decodes a hex value into a boolean.
  *
@@ -161,6 +179,8 @@ export function hexToBool(hex_: Hex, opts: HexToBoolOpts = {}): boolean {
 
 export type HexToNumberOpts = HexToBigIntOpts
 
+export type HexToNumberErrorType = HexToBigIntErrorType | Error
+
 /**
  * Decodes a hex string into a number.
  *
@@ -188,6 +208,12 @@ export type HexToStringOpts = {
   /** Size (in bytes) of the hex value. */
   size?: number
 }
+
+export type HexToStringErrorType =
+  | AssertSizeErrorType
+  | HexToBytesErrorType
+  | TrimErrorType
+  | Error
 
 /**
  * Decodes a hex value into a UTF-8 string.

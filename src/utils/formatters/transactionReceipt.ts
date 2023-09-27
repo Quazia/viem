@@ -6,7 +6,7 @@ import type { RpcTransactionReceipt } from '../../types/rpc.js'
 import type { TransactionReceipt } from '../../types/transaction.js'
 import { hexToNumber } from '../encoding/fromHex.js'
 
-import { defineFormatter } from './formatter.js'
+import { type DefineFormatterErrorType, defineFormatter } from './formatter.js'
 import { formatLog } from './log.js'
 import { transactionType } from './transaction.js'
 
@@ -22,6 +22,8 @@ const statuses = {
   '0x0': 'reverted',
   '0x1': 'success',
 } as const
+
+export type FormatTransactionReceiptErrorType = Error
 
 export function formatTransactionReceipt(
   transactionReceipt: Partial<RpcTransactionReceipt>,
@@ -60,6 +62,8 @@ export function formatTransactionReceipt(
       : null,
   } as TransactionReceipt
 }
+
+export type DefineBlockErrorType = DefineFormatterErrorType | Error
 
 export const defineTransactionReceipt = /*#__PURE__*/ defineFormatter(
   'transactionReceipt',

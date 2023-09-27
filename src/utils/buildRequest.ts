@@ -25,7 +25,10 @@ import {
   UserRejectedRequestError,
 } from '../errors/rpc.js'
 
-import { withRetry } from './promise/withRetry.js'
+import { type WithRetryErrorType, withRetry } from './promise/withRetry.js'
+import { safe } from './safe.js'
+
+export type IsDeterministicErrorType = Error
 
 export const isDeterministicError = (error: Error) => {
   if ('code' in error)
@@ -49,6 +52,30 @@ export const isDeterministicError = (error: Error) => {
     )
   return false
 }
+
+export type BuildRequestErrorType =
+  | ChainDisconnectedError
+  | InternalRpcError
+  | InvalidInputRpcError
+  | InvalidParamsRpcError
+  | InvalidRequestRpcError
+  | JsonRpcVersionUnsupportedError
+  | LimitExceededRpcError
+  | MethodNotFoundRpcError
+  | MethodNotSupportedRpcError
+  | ParseRpcError
+  | ProviderDisconnectedError
+  | ResourceNotFoundRpcError
+  | ResourceUnavailableRpcError
+  | RpcError
+  | SwitchChainError
+  | TransactionRejectedRpcError
+  | UnauthorizedProviderError
+  | UnknownRpcError
+  | UnsupportedProviderMethodError
+  | UserRejectedRequestError
+  | WithRetryErrorType
+  | Error
 
 export function buildRequest<TRequest extends (args: any) => Promise<any>>(
   request: TRequest,
@@ -151,4 +178,12 @@ export function buildRequest<TRequest extends (args: any) => Promise<any>>(
         shouldRetry: ({ error }) => !isDeterministicError(error),
       },
     )) as TRequest
+}
+
+buildRequest.safe = <TRequest extends (args: any) => Promise<any>>(
+  ...args: Parameters<typeof buildRequest<TRequest>>
+) => {
+  return safe<BuildRequestErrorType, ReturnType<typeof buildRequest<TRequest>>>(
+    () => buildRequest(...args),
+  )
 }

@@ -1,6 +1,8 @@
 import type { ByteArray, Hex } from '../../types/misc.js'
 
-import { isHex } from './isHex.js'
+import { type IsHexErrorType, isHex } from './isHex.js'
+
+export type SizeErrorType = IsHexErrorType | Error
 
 /**
  * @description Retrieves the size of the value (in bytes).

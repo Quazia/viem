@@ -6,11 +6,17 @@ import type {
   GetFunctionArgs,
   InferFunctionName,
 } from '../../types/contract.js'
-import { concatHex } from '../data/concat.js'
-import { getFunctionSelector } from '../hash/getFunctionSelector.js'
+import { type ConcatHexErrorType, concatHex } from '../data/concat.js'
+import {
+  type GetFunctionSelectorErrorType,
+  getFunctionSelector,
+} from '../hash/getFunctionSelector.js'
 
-import { encodeAbiParameters } from './encodeAbiParameters.js'
-import { formatAbiItem } from './formatAbiItem.js'
+import {
+  type EncodeAbiParametersErrorType,
+  encodeAbiParameters,
+} from './encodeAbiParameters.js'
+import { type FormatAbiItemErrorType, formatAbiItem } from './formatAbiItem.js'
 import { type GetAbiItemParameters, getAbiItem } from './getAbiItem.js'
 
 export type EncodeFunctionDataParameters<
@@ -24,6 +30,15 @@ export type EncodeFunctionDataParameters<
   : _FunctionName extends string
   ? { abi: [TAbi[number]] } & GetFunctionArgs<TAbi, _FunctionName>
   : never)
+
+export type EncodeFunctionDataErrorType =
+  | AbiFunctionNotFoundError
+  | ConcatHexErrorType
+  | EncodeAbiParametersErrorType
+  | FormatAbiItemErrorType
+  | GetAbiItemParameters
+  | GetFunctionSelectorErrorType
+  | Error
 
 export function encodeFunctionData<
   const TAbi extends Abi | readonly unknown[],

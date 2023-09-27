@@ -1,10 +1,20 @@
 import type { AbiFunction } from 'abitype'
 
-import { formatAbiItem } from '../abi/formatAbiItem.js'
 import {
+  type FormatAbiItemErrorType,
+  formatAbiItem,
+} from '../abi/formatAbiItem.js'
+import {
+  type ExtractFunctionNameErrorType,
+  type ExtractFunctionParamsErrorType,
   extractFunctionName,
   extractFunctionParams,
 } from '../contract/extractFunctionParts.js'
+
+export type GetFunctionSignatureErrorType =
+  | ExtractFunctionNameErrorType
+  | ExtractFunctionParamsErrorType
+  | FormatAbiItemErrorType
 
 export const getFunctionSignature = (fn: string | AbiFunction) => {
   if (typeof fn === 'string') {

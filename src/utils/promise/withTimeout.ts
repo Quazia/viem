@@ -1,3 +1,5 @@
+export type WithTimeoutErrorType = Error
+
 export function withTimeout<TData>(
   fn: ({ signal }: { signal?: AbortController['signal'] }) => Promise<TData>,
   {

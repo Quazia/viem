@@ -9,6 +9,8 @@ export type PadReturnType<TValue extends ByteArray | Hex> = TValue extends Hex
   ? Hex
   : ByteArray
 
+export type PadErrorType = PadHexErrorType | PadBytesErrorType | Error
+
 export function pad<TValue extends ByteArray | Hex>(
   hexOrBytes: TValue,
   { dir, size = 32 }: PadOptions = {},
@@ -17,6 +19,8 @@ export function pad<TValue extends ByteArray | Hex>(
     return padHex(hexOrBytes, { dir, size }) as PadReturnType<TValue>
   return padBytes(hexOrBytes, { dir, size }) as PadReturnType<TValue>
 }
+
+export type PadHexErrorType = SizeExceedsPaddingSizeError | Error
 
 export function padHex(hex_: Hex, { dir, size = 32 }: PadOptions = {}) {
   if (size === null) return hex_
@@ -33,6 +37,8 @@ export function padHex(hex_: Hex, { dir, size = 32 }: PadOptions = {}) {
     '0',
   )}` as Hex
 }
+
+export type PadBytesErrorType = SizeExceedsPaddingSizeError | Error
 
 export function padBytes(
   bytes: ByteArray,

@@ -1,9 +1,16 @@
 import { InvalidBytesBooleanError } from '../../errors/encoding.js'
 import type { ByteArray, Hex } from '../../types/misc.js'
-import { trim } from '../data/trim.js'
+import { type TrimErrorType, trim } from '../data/trim.js'
 
-import { assertSize, hexToBigInt, hexToNumber } from './fromHex.js'
-import { bytesToHex } from './toHex.js'
+import {
+  type AssertSizeErrorType,
+  type HexToBigIntErrorType,
+  type HexToNumberErrorType,
+  assertSize,
+  hexToBigInt,
+  hexToNumber,
+} from './fromHex.js'
+import { type BytesToHexErrorType, bytesToHex } from './toHex.js'
 
 export type FromBytesParameters<
   TTo extends 'string' | 'hex' | 'bigint' | 'number' | 'boolean',
@@ -16,7 +23,7 @@ export type FromBytesParameters<
       to: TTo
     }
 
-type FromBytesReturnType<TTo> = TTo extends 'string'
+export type FromBytesReturnType<TTo> = TTo extends 'string'
   ? string
   : TTo extends 'hex'
   ? Hex
@@ -27,6 +34,14 @@ type FromBytesReturnType<TTo> = TTo extends 'string'
   : TTo extends 'boolean'
   ? boolean
   : never
+
+export type FromBytesErrorType =
+  | BytesToHexErrorType
+  | BytesToBigIntErrorType
+  | BytesToBoolErrorType
+  | BytesToNumberErrorType
+  | BytesToStringErrorType
+  | Error
 
 /**
  * Decodes a byte array into a UTF-8 string, hex value, number, bigint or boolean.
@@ -78,6 +93,11 @@ export type BytesToBigIntOpts = {
   size?: number
 }
 
+export type BytesToBigIntErrorType =
+  | BytesToHexErrorType
+  | HexToBigIntErrorType
+  | Error
+
 /**
  * Decodes a byte array into a bigint.
  *
@@ -105,6 +125,8 @@ export type BytesToBoolOpts = {
   /** Size of the bytes. */
   size?: number
 }
+
+export type BytesToBoolErrorType = AssertSizeErrorType | TrimErrorType | Error
 
 /**
  * Decodes a byte array into a boolean.
@@ -136,6 +158,11 @@ export function bytesToBool(
 
 export type BytesToNumberOpts = BytesToBigIntOpts
 
+export type BytesToNumberErrorType =
+  | BytesToHexErrorType
+  | HexToNumberErrorType
+  | Error
+
 /**
  * Decodes a byte array into a number.
  *
@@ -163,6 +190,8 @@ export type BytesToStringOpts = {
   /** Size of the bytes. */
   size?: number
 }
+
+export type BytesToStringErrorType = AssertSizeErrorType | TrimErrorType | Error
 
 /**
  * Decodes a byte array into a UTF-8 string.

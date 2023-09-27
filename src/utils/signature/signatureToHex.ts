@@ -1,8 +1,16 @@
 import { secp256k1 } from '@noble/curves/secp256k1'
 
 import type { Hex, Signature } from '../../types/misc.js'
-import { hexToBigInt } from '../../utils/encoding/fromHex.js'
-import { toHex } from '../../utils/encoding/toHex.js'
+import {
+  type HexToBigIntErrorType,
+  hexToBigInt,
+} from '../../utils/encoding/fromHex.js'
+import { type ToHexErrorType, toHex } from '../../utils/encoding/toHex.js'
+
+export type SignatureToHexErrorType =
+  | HexToBigIntErrorType
+  | ToHexErrorType
+  | Error
 
 /**
  * @description Converts a signature into hex format.

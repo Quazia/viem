@@ -8,7 +8,7 @@ import type { Hash } from '../../types/misc.js'
 import type { RpcBlock } from '../../types/rpc.js'
 import type { Prettify } from '../../types/utils.js'
 
-import { defineFormatter } from './formatter.js'
+import { type DefineFormatterErrorType, defineFormatter } from './formatter.js'
 import { type FormattedTransaction, formatTransaction } from './transaction.js'
 
 type BlockPendingDependencies = 'hash' | 'logsBloom' | 'nonce' | 'number'
@@ -39,6 +39,8 @@ export type FormattedBlock<
   transactions: _Transactions
 }
 
+export type FormatBlockErrorType = Error
+
 export function formatBlock(block: Partial<RpcBlock>) {
   const transactions = block.transactions?.map((transaction) => {
     if (typeof transaction === 'string') return transaction
@@ -62,5 +64,7 @@ export function formatBlock(block: Partial<RpcBlock>) {
       : null,
   } as Block
 }
+
+export type DefineBlockErrorType = DefineFormatterErrorType | Error
 
 export const defineBlock = /*#__PURE__*/ defineFormatter('block', formatBlock)

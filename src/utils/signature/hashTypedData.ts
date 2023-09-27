@@ -4,11 +4,19 @@ import type { AbiParameter, TypedData, TypedDataDomain } from 'abitype'
 
 import type { Hex } from '../../types/misc.js'
 import type { TypedDataDefinition } from '../../types/typedData.js'
-import { encodeAbiParameters } from '../abi/encodeAbiParameters.js'
+import {
+  type EncodeAbiParametersErrorType,
+  encodeAbiParameters,
+} from '../abi/encodeAbiParameters.js'
 import { concat } from '../data/concat.js'
-import { toHex } from '../encoding/toHex.js'
-import { keccak256 } from '../hash/keccak256.js'
-import { getTypesForEIP712Domain, validateTypedData } from '../typedData.js'
+import { type ToHexErrorType, toHex } from '../encoding/toHex.js'
+import { type Keccak256ErrorType, keccak256 } from '../hash/keccak256.js'
+import {
+  type GetTypesForEIP712DomainErrorType,
+  type ValidateTypedDataErrorType,
+  getTypesForEIP712Domain,
+  validateTypedData,
+} from '../typedData.js'
 
 type MessageTypeProperty = {
   name: string
@@ -21,6 +29,13 @@ export type HashTypedDataParameters<
 > = TypedDataDefinition<TTypedData, TPrimaryType>
 
 export type HashTypedDataReturnType = Hex
+
+export type HashTypedDataErrorType =
+  | GetTypesForEIP712DomainErrorType
+  | HashDomainErrorType
+  | HashStructErrorType
+  | ValidateTypedDataErrorType
+  | Error
 
 export function hashTypedData<
   const TTypedData extends TypedData | { [key: string]: unknown },
@@ -68,6 +83,8 @@ export function hashTypedData<
   return keccak256(concat(parts))
 }
 
+export type HashDomainErrorType = HashStructErrorType | Error
+
 export function hashDomain({
   domain,
   types,
@@ -81,6 +98,8 @@ export function hashDomain({
     types,
   })
 }
+
+type HashStructErrorType = EncodeDataErrorType | Keccak256ErrorType | Error
 
 function hashStruct({
   data,
@@ -98,6 +117,12 @@ function hashStruct({
   })
   return keccak256(encoded)
 }
+
+type EncodeDataErrorType =
+  | EncodeAbiParametersErrorType
+  | EncodeFieldErrorType
+  | HashTypeErrorType
+  | Error
 
 function encodeData({
   data,
@@ -125,6 +150,12 @@ function encodeData({
   return encodeAbiParameters(encodedTypes, encodedValues)
 }
 
+type HashTypeErrorType =
+  | ToHexErrorType
+  | EncodeTypeErrorType
+  | Keccak256ErrorType
+  | Error
+
 function hashType({
   primaryType,
   types,
@@ -135,6 +166,8 @@ function hashType({
   const encodedHashType = toHex(encodeType({ primaryType, types }))
   return keccak256(encodedHashType)
 }
+
+type EncodeTypeErrorType = FindTypeDependenciesErrorType
 
 function encodeType({
   primaryType,
@@ -156,6 +189,8 @@ function encodeType({
 
   return result
 }
+
+type FindTypeDependenciesErrorType = Error
 
 function findTypeDependencies(
   {
@@ -180,6 +215,12 @@ function findTypeDependencies(
   }
   return results
 }
+
+type EncodeFieldErrorType =
+  | Keccak256ErrorType
+  | EncodeAbiParametersErrorType
+  | ToHexErrorType
+  | Error
 
 function encodeField({
   types,

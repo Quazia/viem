@@ -1,7 +1,12 @@
 import { secp256k1 } from '@noble/curves/secp256k1'
 
 import type { Hex, Signature } from '../../types/misc.js'
-import { numberToHex } from '../../utils/encoding/toHex.js'
+import {
+  type NumberToHexErrorType,
+  numberToHex,
+} from '../../utils/encoding/toHex.js'
+
+export type HexToSignatureErrorType = NumberToHexErrorType | Error
 
 /**
  * @description Parses a hex formatted signature into a structured signature.

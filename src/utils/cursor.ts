@@ -32,6 +32,20 @@ export type Cursor = {
   setPosition(position: number): void
 }
 
+export type CreateCursorErrorType = Error
+
+export type CursorErrorType =
+  | CursorAssertPositionErrorType
+  | CursorDecrementPositionErrorType
+  | CursorIncrementPositionErrorType
+  | Error
+
+export type CursorAssertPositionErrorType = PositionOutOfBoundsError | Error
+
+export type CursorDecrementPositionErrorType = NegativeOffsetError | Error
+
+export type CursorIncrementPositionErrorType = NegativeOffsetError | Error
+
 const staticCursor: Cursor = {
   bytes: new Uint8Array(),
   dataView: new DataView(new ArrayBuffer(0)),

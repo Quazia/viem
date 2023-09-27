@@ -1,5 +1,7 @@
 import type { Assign, Prettify } from '../../types/utils.js'
 
+export type DefineFormatterErrorType = Error
+
 export function defineFormatter<TType extends string, TParameters, TReturnType>(
   type: TType,
   format: (_: TParameters) => TReturnType,

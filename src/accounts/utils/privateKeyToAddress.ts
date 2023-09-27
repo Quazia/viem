@@ -2,8 +2,19 @@ import { secp256k1 } from '@noble/curves/secp256k1'
 import type { Address } from 'abitype'
 
 import type { Hex } from '../../types/misc.js'
-import { bytesToHex } from '../../utils/encoding/toHex.js'
-import { publicKeyToAddress } from './publicKeyToAddress.js'
+import {
+  type BytesToHexErrorType,
+  bytesToHex,
+} from '../../utils/encoding/toHex.js'
+import {
+  type PublicKeyToAddressErrorType,
+  publicKeyToAddress,
+} from './publicKeyToAddress.js'
+
+export type PrivateKeyToAddressErrorType =
+  | BytesToHexErrorType
+  | PublicKeyToAddressErrorType
+  | Error
 
 /**
  * @description Converts an ECDSA private key to an address.

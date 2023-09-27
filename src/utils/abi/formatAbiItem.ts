@@ -3,6 +3,11 @@ import type { AbiParameter } from 'abitype'
 import { InvalidDefinitionTypeError } from '../../errors/abi.js'
 import type { AbiItem } from '../../types/contract.js'
 
+export type FormatAbiItemErrorType =
+  | FormatAbiParamsErrorType
+  | InvalidDefinitionTypeError
+  | Error
+
 export function formatAbiItem(
   abiItem: AbiItem,
   { includeName = false }: { includeName?: boolean } = {},
@@ -17,6 +22,8 @@ export function formatAbiItem(
   return `${abiItem.name}(${formatAbiParams(abiItem.inputs, { includeName })})`
 }
 
+export type FormatAbiParamsErrorType = Error
+
 export function formatAbiParams(
   params: readonly AbiParameter[] | undefined,
   { includeName = false }: { includeName?: boolean } = {},
@@ -26,6 +33,8 @@ export function formatAbiParams(
     .map((param) => formatAbiParam(param, { includeName }))
     .join(includeName ? ', ' : ',')
 }
+
+export type FormatAbiParamErrorType = Error
 
 function formatAbiParam(
   param: AbiParameter,

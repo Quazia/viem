@@ -1,8 +1,19 @@
 import type { Address } from 'abitype'
 
 import type { Hex } from '../../types/misc.js'
-import { checksumAddress } from '../../utils/address/getAddress.js'
-import { keccak256 } from '../../utils/hash/keccak256.js'
+import {
+  type ChecksumAddressErrorType,
+  checksumAddress,
+} from '../../utils/address/getAddress.js'
+import {
+  type Keccak256ErrorType,
+  keccak256,
+} from '../../utils/hash/keccak256.js'
+
+export type PublicKeyToAddressErrorType =
+  | ChecksumAddressErrorType
+  | Keccak256ErrorType
+  | Error
 
 /**
  * @description Converts an ECDSA public key to an address.

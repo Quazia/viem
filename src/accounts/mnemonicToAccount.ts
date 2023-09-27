@@ -1,8 +1,13 @@
 import { HDKey } from '@scure/bip32'
 import { mnemonicToSeedSync } from '@scure/bip39'
 
-import { hdKeyToAccount } from './hdKeyToAccount.js'
+import {
+  type HDKeyToAccountErrorType,
+  hdKeyToAccount,
+} from './hdKeyToAccount.js'
 import type { HDAccount, HDOptions } from './types.js'
+
+export type MnemonicToAccountErrorType = HDKeyToAccountErrorType | Error
 
 /**
  * @description Creates an Account from a mnemonic phrase.

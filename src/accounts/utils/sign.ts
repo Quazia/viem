@@ -1,13 +1,16 @@
 import { secp256k1 } from '@noble/curves/secp256k1'
 
 import type { Hex, Signature } from '../../types/misc.js'
-import { toHex } from '../../utils/encoding/toHex.js'
+import { type ToHexErrorType, toHex } from '../../utils/encoding/toHex.js'
 
 export type SignParameters = {
   hash: Hex
   privateKey: Hex
 }
+
 export type SignReturnType = Signature
+
+export type SignErrorType = ToHexErrorType | Error
 
 /**
  * @description Signs a hash with a given private key.

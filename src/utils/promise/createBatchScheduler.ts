@@ -19,6 +19,7 @@ export type CreateBatchSchedulerArguments<
   shouldSplitBatch?: (args: TParameters[]) => boolean
   wait?: number
 }
+
 export type CreateBatchSchedulerReturnType<
   TParameters = unknown,
   TReturnType extends readonly unknown[] = readonly unknown[],
@@ -28,6 +29,8 @@ export type CreateBatchSchedulerReturnType<
     ? (args?: TParameters) => Promise<Resolved<TReturnType>>
     : (args: TParameters) => Promise<Resolved<TReturnType>>
 }
+
+export type CreateBatchSchedulerErrorType = Error
 
 const schedulerCache = /*#__PURE__*/ new Map<number | string, SchedulerItem[]>()
 

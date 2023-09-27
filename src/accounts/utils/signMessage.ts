@@ -1,8 +1,14 @@
 import type { Hex, SignableMessage } from '../../types/misc.js'
-import { hashMessage } from '../../utils/signature/hashMessage.js'
-import { signatureToHex } from '../../utils/signature/signatureToHex.js'
+import {
+  type HashMessageErrorType,
+  hashMessage,
+} from '../../utils/signature/hashMessage.js'
+import {
+  type SignatureToHexErrorType,
+  signatureToHex,
+} from '../../utils/signature/signatureToHex.js'
 
-import { sign } from './sign.js'
+import { type SignErrorType, sign } from './sign.js'
 
 export type SignMessageParameters = {
   /** The message to sign. */
@@ -10,7 +16,14 @@ export type SignMessageParameters = {
   /** The private key to sign with. */
   privateKey: Hex
 }
+
 export type SignMessageReturnType = Hex
+
+export type SignMessageErrorType =
+  | SignErrorType
+  | HashMessageErrorType
+  | SignatureToHexErrorType
+  | Error
 
 /**
  * @description Calculates an Ethereum-specific signature in [EIP-191 format](https://eips.ethereum.org/EIPS/eip-191):

@@ -9,12 +9,18 @@ import type {
   InferEventName,
 } from '../../types/contract.js'
 import type { Hex } from '../../types/misc.js'
-import { toBytes } from '../encoding/toBytes.js'
-import { getEventSelector } from '../hash/getEventSelector.js'
-import { keccak256 } from '../hash/keccak256.js'
+import { type ToBytesErrorType, toBytes } from '../encoding/toBytes.js'
+import {
+  type GetEventSelectorErrorType,
+  getEventSelector,
+} from '../hash/getEventSelector.js'
+import { type Keccak256ErrorType, keccak256 } from '../hash/keccak256.js'
 
-import { encodeAbiParameters } from './encodeAbiParameters.js'
-import { formatAbiItem } from './formatAbiItem.js'
+import {
+  type EncodeAbiParametersErrorType,
+  encodeAbiParameters,
+} from './encodeAbiParameters.js'
+import { type FormatAbiItemErrorType, formatAbiItem } from './formatAbiItem.js'
 import { type GetAbiItemParameters, getAbiItem } from './getAbiItem.js'
 
 export type EncodeEventTopicsParameters<
@@ -28,6 +34,13 @@ export type EncodeEventTopicsParameters<
   : _EventName extends string
   ? { abi: [TAbi[number]]; args?: GetEventArgs<TAbi, _EventName> }
   : never)
+
+export type EncodeEventTopicsErrorType =
+  | AbiEventNotFoundError
+  | EncodeArgErrorType
+  | FormatAbiItemErrorType
+  | GetEventSelectorErrorType
+  | Error
 
 export function encodeEventTopics<
   const TAbi extends Abi | readonly unknown[],
@@ -80,6 +93,13 @@ export function encodeEventTopics<
   }
   return [signature, ...topics]
 }
+
+export type EncodeArgErrorType =
+  | Keccak256ErrorType
+  | ToBytesErrorType
+  | EncodeAbiParametersErrorType
+  | FilterTypeNotSupportedError
+  | Error
 
 function encodeArg({
   param,

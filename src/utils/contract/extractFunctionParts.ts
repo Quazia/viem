@@ -1,5 +1,7 @@
 const paramsRegex = /((function|event)\s)?(.*)(\((.*)\))/
 
+export type ExtractFunctionPartsErrorType = Error
+
 export function extractFunctionParts(def: string) {
   const parts = def.match(paramsRegex)
   const type = parts?.[2] || undefined
@@ -8,9 +10,13 @@ export function extractFunctionParts(def: string) {
   return { type, name, params }
 }
 
+export type ExtractFunctionNameErrorType = Error
+
 export function extractFunctionName(def: string) {
   return extractFunctionParts(def).name
 }
+
+export type ExtractFunctionParamsErrorType = Error
 
 export function extractFunctionParams(def: string) {
   const params = extractFunctionParts(def).params
@@ -21,6 +27,8 @@ export function extractFunctionParams(def: string) {
     ...(param[1] === 'indexed' ? { indexed: true } : {}),
   }))
 }
+
+export type ExtractFunctionTypeErrorType = Error
 
 export function extractFunctionType(def: string) {
   return extractFunctionParts(def).type

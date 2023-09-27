@@ -16,6 +16,10 @@ export type AssertCurrentChainParameters = {
   currentChainId: number
 }
 
+export type AssertCurrentChainErrorType =
+  | ChainNotFoundError
+  | ChainMismatchError
+
 export function assertCurrentChain({
   chain,
   currentChainId,
@@ -44,6 +48,8 @@ export function defineChain<
     serializers,
   } as unknown as Assign<chain, ChainConfig<formatters>>
 }
+
+export type GetChainContractAddressErrorType = ChainDoesNotSupportContract
 
 export function getChainContractAddress({
   blockNumber,

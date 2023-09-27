@@ -1,3 +1,5 @@
+export type ParseUnitsError = Error
+
 export function parseUnits(value: string, decimals: number) {
   let [integer, fraction = '0'] = value.split('.')
 

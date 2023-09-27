@@ -1,5 +1,7 @@
 import type { Hex } from '../../types/misc.js'
 
+export type IsHexErrorType = Error
+
 export function isHex(
   value: unknown,
   { strict = true }: { strict?: boolean } = {},
